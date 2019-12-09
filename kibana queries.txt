@@ -1,0 +1,486 @@
+Content-Type: application/x-ndjson
+saif.rehman@D-SaifRehman ~/Documents/Documents/elk-learning $ curl -H "Content-Type: application/x-ndjson" -XPOST http://localhost:9200/products/_bulk --data-binary "@products-bulk.json"
+
+
+GET /_cluster/health
+GET /_cat/shards?v
+GET /_cat/nodes?v
+ PUT /products
+ {
+   "settings":{
+     "number_of_shards": 2,
+     "number_of_replicas": 2
+   }
+ }
+ POST /products/_doc
+ {
+   "name": "coffee Maker",
+   "price": 64,
+   "instock": 10
+ }
+PUT /products/_doc/100
+{
+   "name": "Toaster",
+   "price": 45,
+   "instock": 4
+ }
+GET /products/_doc/100
+POST /products/_update/100
+{
+  "doc":{
+    "instock": 10
+  }
+}
+POST /products/_update/100
+{
+  "doc":{
+    "tags": ["electronics"]
+  }
+}
+POST /products/_update/100
+{
+  "script":{
+    "source": "ctx._source.instock--"
+  }
+}
+POST /products/_update/100
+{
+  "script":{
+    "source": "ctx._source.instock=10"
+  }
+}
+
+GET /_cluster/health
+GET /_cat/shards?v
+GET /_cat/nodes?v
+ PUT /products
+ {
+   "settings":{
+     "number_of_shards": 2,
+     "number_of_replicas": 2
+   }
+ }
+ POST /products/_doc
+ {
+   "name": "coffee Maker",
+   "price": 64,
+   "instock": 10
+ }
+PUT /products/_doc/100
+{
+   "name": "Toaster",
+   "price": 45,
+   "instock": 4
+ }
+GET /products/_doc/100
+POST /products/_update/100
+{
+  "doc":{
+    "instock": 10
+  }
+}
+POST /products/_update/100
+{
+  "doc":{
+    "tags": ["electronics"]
+  }
+}
+POST /products/_update/100
+{
+  "script":{
+    "source": "ctx._source.instock--"
+  }
+}
+POST /products/_update/100
+{
+  "script":{
+    "source": "ctx._source.instock-= params.quantity",
+    "params": {
+      "quantity": 4
+    }
+  }
+} 
+POST /products/_update/101
+{
+  "script":{
+    "source": "ctx._source.instock++"
+  },
+  "upsert":{
+    "name": "Blender",
+    "price": 399,
+    "instock": 5
+  }
+}   
+GET /products/_doc/101
+PUT /products/_doc/100
+{
+    "name": "Toaster",
+    "price": 79,
+    "instock": 4
+}  
+GET /products/_doc/101
+DELETE /products/_doc/101
+POST /products/_update_by_query
+{
+  "conflicts": "proceed",
+  "script": {
+    "source": "ctx._source.instock--"
+  },
+  "query":{
+    "match_all":{}
+  }
+}
+GET /products/_search
+{
+  "query":{
+    "match_all":{
+      
+    }
+  }
+}
+POST /products/_delete_by_query
+{
+  "query":{
+    "match_all":{
+      
+    }
+  }
+}
+POST /_bulk
+{"index":{"_index": "products", "_id": 200}}
+{"name":"Espresso Machine", "price": 199, "instock":5}
+{"create": {"_index": "products", "_id":201}}
+{"name":"Milk Frother", "price":149, "insotck": 14}
+GET /products/_search
+{
+  "query":{
+    "match_all":{
+      
+    }
+  }
+}
+POST /_bulk
+{"update":{"_index": "products", "_id": 201}}
+{"doc":{"price": 129}}
+{"delete":{"_index": "products", "_id": 200}}
+
+POST /products/_bulk
+{"update":{"_id": 201}}
+{"doc":{"price": 129}}
+{"delete":{"_id": 200}}
+
+GET /_cat/shards?v
+
+GET /products/_mapping
+
+
+PUT /products/_mapping
+{
+  "properties":{
+    "discount": {
+      "type": "double"
+    }
+  }
+}
+
+PUT /product
+{
+  "mappings": {
+      "dynamic":false,
+      "properties": {
+        "instock":{
+          "type":"integer"
+        },
+        "isactive":{
+          "type": "integer"
+        },
+        "price":{
+          "type": "integer"
+        },
+        "sold":{
+          "type":"long"
+        }
+      }
+    }
+  }
+  
+  DELETE /product
+
+
+PUT /product/_mapping
+{
+  "properties":{
+    "description":{
+      "type": "text"
+    },
+    "name":{
+      "type":"text",
+      "fields":{
+        "keyword":{
+          "type": "keyword"
+        }
+      }
+    },
+    "tags":{
+      "type":"text",
+      "fields":{
+        "keyword":{
+          "type":"keyword"
+        }
+      }
+    }
+  }
+}
+
+GET /product/_mapping
+
+
+PUT /product/_mapping
+{
+  "properties":{
+    "created":{
+      "type": "date",
+      "format":"strict_date_optional_time||epoch_millis"
+    }
+  }
+}
+
+POST /product/_doc/2000
+{
+  "description": "Test",
+  "discount":20
+}
+
+PUT /product/_mapping
+{
+  "properties":{
+    "discount":{
+      "type": "integer"
+    }
+  }
+}
+
+
+GET /product/_search
+{
+  "query":{
+    "match": {
+      "description": "Test"
+    }
+  }
+}
+GET /product/_search
+{
+  "query":{
+    "term": {
+      "discount": 20
+    }
+  }
+}
+
+POST _analyze
+{
+  "tokenizer": "standard",
+  "text": "Hello World, Bravo is here!"
+}
+
+POST _analyze
+{
+  "tokenizer": "standard",
+  "filter": ["lowercase"],
+  "text": "Hello World, Bravo is here!"
+}
+
+
+POST _analyze
+{
+  "analyzer": "standard", 
+  "text": "Hello World, Bravo is here!"
+}
+
+
+
+PUT /existing_analyzer_config
+{
+  "settings":{
+    "analysis": {
+      "analyzer": {
+        "english_stop":{
+          "type":"standard",
+          "stopwords": "_english_"
+        }
+      },
+      "filter": {
+        "my_stemmer":{
+          "type":"stemmer",
+          "name":"english"
+        }
+      }
+    }
+  }
+}
+
+
+POST /existing_analyzer_config/_analyze
+{
+  "analyzer": "english_stop",
+  "text": "I'm in a mood for drinking semi-dry red Wine!"
+}
+
+POST /existing_analyzer_config/_analyze
+{
+  "tokenizer": "standard",
+  "filter": ["my_stemmer"], 
+  "text": "I'm in a mood for drinking semi-dry red Wine!"
+}
+
+
+
+PUT /analyzer_test
+{
+  "settings":{
+    "analysis": {
+      "analyzer": {
+        "english_stop":{
+          "type":"standard",
+          "stopwords": "_english_"
+        },
+        "my_analyzer":{
+          "type": "custom",
+          "tokenizer": "standard",
+          "char_filter":["html_strip"],
+            "filter":["standard", "lowercase","trim","my_stemmer"]
+        }
+      },
+      "filter": {
+        "my_stemmer":{
+          "type":"stemmer",
+          "name":"english"
+        }
+      }
+    }
+  }
+}
+PUT /analyzers_test
+{
+  "settings":{
+    "analysis": {
+      "analyzer": {
+        "english_stop":{
+          "type":"standard",
+          "stopwords": "_english_"
+        },
+        "my_analyzer":{
+          "type": "custom",
+          "tokenizer": "standard",
+          "char_filter":["html_strip"],
+            "filter":["standard", "lowercase","trim","my_stemmer"]
+        }
+      },
+      "filter": {
+        "my_stemmer":{
+          "type":"stemmer",
+          "name":"english"
+        }
+      }
+    }
+  }
+}
+
+
+
+
+POST /analyzers_test/_analyze
+{
+  "analyzer":"my_analyzer",
+  "text": "I'm in a mood of drinking <strong>semi-red</strong> dry wine!"
+}
+
+
+
+
+PUT /analyzers_test/_mapping
+{
+  "properties":{
+    "description":{
+      "type": "text",
+      "analyzer":"my_analyzer"
+    },
+    "teaser":{
+      "type": "text",
+      "analyzer":"standard"
+    }
+  }
+}
+
+
+PUT /analyzers_testing
+{
+  "settings":{
+    "analysis": {
+      "analyzer": {
+        "english_stop":{
+          "type":"standard",
+          "stopwords": "_english_"
+        },
+        "my_analyzer":{
+          "type": "custom",
+          "tokenizer": "standard",
+          "char_filter":["html_strip"],
+            "filter":["standard", "lowercase","trim","my_stemmer"]
+        }
+      },
+      "filter": {
+        "my_stemmer":{
+          "type":"stemmer",
+          "name":"english"
+        }
+      }
+    }
+  }
+}
+
+
+
+
+POST /analyzers_test/_analyze
+{
+  "analyzer":"my_analyzer",
+  "text": "I'm in a mood of drinking <strong>semi-red</strong> dry wine!"
+}
+
+
+
+PUT /analyzers_testing/_mapping
+{
+  "properties":{
+    "description":{
+      "type": "text",
+      "analyzer":"my_analyzer"
+    },
+    "teaser":{
+      "type": "text"
+    }
+  }
+}
+
+POST /analyzers_testing/_doc/1
+{
+  "description":"drinking",
+  "teaser":"drinking"
+}
+
+GET /products/_doc/_search?q=name:lobster
+GET /products/_doc/_search?q=*
+GET /products/_doc/_search?q=tags:Meat
+GET /products/_doc/_search?q=tags:Meat AND name:Tuna
+GET /products/_doc/_search?q=tags:Meat OR name:Tuna
+
+GET /products/_doc/_search
+{
+  "query":{
+    "match_all":{
+      
+    }
+  }
+}
