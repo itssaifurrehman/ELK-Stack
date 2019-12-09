@@ -5,12 +5,14 @@ This is the project, i used to learn complete ELK stack. It contains 3 major fil
 
 Logstash with version: 7.5.0
 (https://www.elastic.co/downloads/logstash)
+
 Elasticsearch with version:7.5.0
 (https://www.elastic.co/downloads/elasticsearch)
+
 Kibana with version: 7.5.0
 (https://www.elastic.co/downloads/kibana)
 
-Download all these tools and extract them on your machine. To run this successfully on your linux machine, you need to have a log file(with .log extension) and give its path in logstash configuration(logstash.conf) file.
+Download all these tools and extract them on your machine. To run this successfully on your linux machine, you need to have a log file(with .log extension) and give its path in logstash configuration(logstash.conf) file and paste this configuration file into /logstash folder.
 
 Open three different terminal tabs and open each folder in each tab like elasticsearch, kibana and logstash
 First Run bin/elasticsearch, then after successfully starting the elasticsearch go to kibana and run bin/kibana. After that go to Logstash folder and run "bin/logstash -f logstash.conf" this command.
