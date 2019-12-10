@@ -1,7 +1,3 @@
-Content-Type: application/x-ndjson
-saif.rehman@D-SaifRehman ~/Documents/Documents/elk-learning $ curl -H "Content-Type: application/x-ndjson" -XPOST http://localhost:9200/products/_bulk --data-binary "@products-bulk.json"
-
-
 GET /_cluster/health
 GET /_cat/shards?v
 GET /_cat/nodes?v
@@ -484,3 +480,187 @@ GET /products/_doc/_search
     }
   }
 }
+
+GET /products/_doc/_search?explain
+{
+  "query":{
+    "term":{
+      "name":"lobster"
+    }
+  }
+}
+
+GET /products/_doc/1?explain
+{
+  "query":{
+    "term":{
+      "name":"lobster"
+    }
+  }
+}
+
+
+GET /products/_doc/_search
+{
+  "query":{
+    "term":{
+      "FIELD":{
+        "value":"VALUE"
+
+      }
+    }
+  }
+}
+
+
+GET /products/_doc/_search
+{
+  "query":{
+    "term":{
+      "is_active":true
+    }
+  }
+}
+
+
+GET /products/_doc/_search
+{
+  "query":{
+    "term":{
+      "tags.keyword":[
+        "Soup",
+        "Cake"
+      ]
+  }
+} 
+}
+
+GET /products/_doc/_search
+{
+  "query":{
+    "ids":{
+      "values":[1,2,3]
+    }
+  }
+}
+
+GET /products/_doc/_search
+{
+  "query":{
+    "range":{
+      "instock":{
+        "gte":1,
+        "lte":5 
+      }
+    }
+  }
+}
+
+GET /products/_doc/_search
+{
+  "query":{
+    "range":{
+      "created":{
+        "gte":"2010/01/01",
+        "lte":"2010/12/31" 
+      }
+    }
+  }
+}
+
+GET /products/_doc/_search
+{
+  "query":{
+    "range":{
+      "created":{
+        "gte":"01-01-2010",
+        "lte":"31-12-2010",
+        "format":"dd-MM-yyyy"
+      }
+    }
+  }
+}
+
+GET /products/_doc/_search
+{
+  "query":{
+    "range":{
+      "created":{
+        "gte":"2010/01/01||-1y"
+      }
+    }
+  }
+}
+
+GET /products/_doc/_search
+{
+  "query":{
+    "range":{
+      "created":{
+        "gte":"2010/01/01||-1y-1d"
+      }
+    }
+  }
+}
+
+GET /products/_doc/_search
+{
+  "query":{
+    "regexp":{
+      "tags.keyword":"Veget[a-zA-Z]+ble"
+    }
+  }
+}
+
+GET /recipe/_doc/_mapping
+{
+  "query":{
+    "match":{
+      "title":"Recipes with pasta or Spaghetti"
+    }
+  }
+}
+GET /recipe/_doc/_mapping
+{
+  "query":{
+    "match":{
+      "title":{
+        "query":"Recipes with pasta or Spaghetti",
+        "operator": "and"
+      }
+    }
+  }
+}
+
+GET /recipe/_doc/_mapping
+{
+  "query":{
+    "match":{
+      "title":{
+        "query":"pasta or Spaghetti",
+        "operator": "and"
+      }
+    }
+  }
+}
+
+GET /recipe/_doc/_mapping
+{
+  "query":{
+    "match":{
+      "title":{
+        "query":"pasta Spaghetti",
+        "operator": "and"
+      }
+    }
+  }
+}  
+GET /recipe/_doc/_mapping
+{
+  "query":{
+    "multi_match":{
+    "query": "pasta",
+    "fields":["title","discription"]
+    }
+  }
+}  
