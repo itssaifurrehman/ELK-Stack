@@ -1,5 +1,4 @@
 # ELK-Stack 
-All the necessary files needed to learn ELK Stack on Linux.
 This is the project, I used to learn complete ELK stack. It contains 3 major files:
 
 Logstash with version: 7.5.0 (https://www.elastic.co/downloads/logstash)
