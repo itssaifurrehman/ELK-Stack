@@ -12,8 +12,8 @@ Elasticsearch with version:7.5.0
 Kibana with version: 7.5.0
 (https://www.elastic.co/downloads/kibana)
 
-Download all these tools and extract them on your machine. To run this successfully on your linux machine, you need to have a log file(with .log extension), give its path in logstash configuration (logstash.conf) file and paste this configuration file into /logstash folder.
+Download all these tools and extract them on your machine. To run this successfully on your linux machine, you need to have a log file(with .log extension), give its path in logstash configuration file (logstash.conf) and paste this configuration file into /logstash folder.
 
-Open three different terminal tabs and open each tool's folder in each tab like elasticsearch, kibana and logstash. First run bin/elasticsearch. After successfully starting the elasticsearch, go to kibana and run bin/kibana. After that, go to Logstash folder and run "bin/logstash -f logstash.conf" this command.
+Open three different terminal tabs and open each tool's folder in each tab like elasticsearch, kibana and logstash. First run bin/elasticsearch. When elasticsearch is started, switch tab to Kibana and run bin/kibana on terminal. After that, go to Logstash folder and run "bin/logstash -f logstash.conf" command from the terminal.
 
-I have also added an example json file(products-bulk.json) for practicing the queries and the queries which I used to learn this project. The queries are of Kibana which when you run the kibana, go to Dev Tools and use them there.
+An example of Json File(products-bulk.json) is added in the poject for practicing the queries of Kibana. Kibana queris are also added in the porject. To run these queries, go to kibana(http://localhost:5601/) and locate dev tools icon in the left bottom of the webpage and run the queries there. You can locate to Elasticsearch at (http://localhost:9200/) and logstash at(http://localhost:9201/)  by default.
